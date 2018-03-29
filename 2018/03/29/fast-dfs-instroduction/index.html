@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="description">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Tanis" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        FastDFS 使用入门｜Tanis&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/03/29/fast-dfs-instroduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tanis
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-default.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>FastDFS 使用入门</h1>
+                    
+                    <span class="meta">
+                         作者 Tanis Chan
+                        <span>
+                          日期 2018-03-29
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#FastDFS"
+                           title="FastDFS">FastDFS</a>
+                        
+                        <a class="tag" href="/tags/#分布式文件系统"
+                           title="分布式文件系统">分布式文件系统</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            FastDFS 使用入门
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="1-下载软件并进行初步安装"><a href="#1-下载软件并进行初步安装" class="headerlink" title="1. 下载软件并进行初步安装"></a>1. 下载软件并进行初步安装</h1><h2 id="1-1-下载安装文件"><a href="#1-1-下载安装文件" class="headerlink" title="1.1 下载安装文件"></a>1.1 下载安装文件</h2><p>FastDFS 5.x 取消了对 libevent 的依赖，添加了对 libfastcommon 的依赖。</p>
+<p>本部署说明用到的软件版本：</p>
+<p>直接使用Github源码下载：</p>
+<p><a href="https://github.com/happyfish100" target="_blank" rel="noopener">https://github.com/happyfish100</a></p>
+<p>将仓库中四个源码全部下载下来：</p>
+<ul>
+<li>libfastcommon 1.29</li>
+<li>fastdfs 5.08</li>
+<li>fastdfs-nginx-module 1.18</li>
+<li>fastdfs-client-java 1.25</li>
+<li>fastdht 2.01</li>
+</ul>
+<h2 id="1-2-安装-fastdfs-软件"><a href="#1-2-安装-fastdfs-软件" class="headerlink" title="1.2 安装 fastdfs 软件"></a>1.2 安装 fastdfs 软件</h2><p>在每一台tracker和storage服务器上执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# unzip libfastcommon-master.zip</span><br><span class="line">[root@localhost ~]# unzip fastdfs-master.zip</span><br><span class="line">[root@localhost ~]# yum install -y gcc perl   # 安装依赖的软件包</span><br><span class="line">[root@localhost ~]# cd libfastcommon-master &amp;&amp; ./make.sh &amp;&amp; ./make.sh install</span><br><span class="line">[root@localhost ~]# cd ../fastdfs-master &amp;&amp; ./make.sh &amp;&amp; ./make.sh install</span><br></pre></td></tr></table></figure>
+<p>安装完成后，所有可执行文件在目录/usr/bin下，以fdfs_开头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ls /usr/bin/fdfs_*</span><br><span class="line">/usr/bin/fdfs_appender_test   </span><br><span class="line">/usr/bin/fdfs_monitor</span><br><span class="line">/usr/bin/fdfs_appender_test1  </span><br><span class="line">/usr/bin/fdfs_storaged</span><br><span class="line">/usr/bin/fdfs_append_file     </span><br><span class="line">/usr/bin/fdfs_test</span><br><span class="line">/usr/bin/fdfs_crc32           </span><br><span class="line">/usr/bin/fdfs_test1</span><br><span class="line">/usr/bin/fdfs_delete_file     </span><br><span class="line">/usr/bin/fdfs_trackerd</span><br><span class="line">/usr/bin/fdfs_download_file   </span><br><span class="line">/usr/bin/fdfs_upload_appender</span><br><span class="line">/usr/bin/fdfs_file_info       </span><br><span class="line">/usr/bin/fdfs_upload_file</span><br></pre></td></tr></table></figure>
+<p>配置文件在目录/etc/fdfs下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ls /etc/fdfs</span><br><span class="line">client.conf.sample  storage.conf.sample  tracker.conf.sample</span><br></pre></td></tr></table></figure>
+<h1 id="2-配置Tracker跟踪器"><a href="#2-配置Tracker跟踪器" class="headerlink" title="2. 配置Tracker跟踪器"></a>2. 配置Tracker跟踪器</h1><p><del>开放tracker监听端口访问</del>（实验时防火墙全部关闭，未使用这部分配置）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd--zone=public--add-port=22122/tcp--permanent</span><br><span class="line">firewall-cmd--reload</span><br></pre></td></tr></table></figure>
+<h2 id="2-1-修改配置文件"><a href="#2-1-修改配置文件" class="headerlink" title="2.1 修改配置文件"></a>2.1 修改配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/fastdfs</span><br><span class="line">cd /etc/fdf</span><br><span class="line">scp tracker.conf.sample tracker.conf</span><br><span class="line">cp /home/ems/chenhj/fastdfs-master/conf/http.conf .  #从安装包拷贝</span><br><span class="line">cp /home/ems/chenhj/fastdfs-master/conf/mime.types . #从安装包拷贝</span><br><span class="line">sed -i &apos;s:base_path=.*:base_path=/data/fastdfs:g&apos; tracker.conf</span><br><span class="line">sed -i &apos;s:http.server_port=.*:http.server_port=80:g&apos; tracker.conf</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-开启fdfs-tracker服务"><a href="#2-2-开启fdfs-tracker服务" class="headerlink" title="2.2 开启fdfs tracker服务"></a>2.2 开启fdfs tracker服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-设置开机自启动（实验时未使用）"><a href="#2-3-设置开机自启动（实验时未使用）" class="headerlink" title="2.3 设置开机自启动（实验时未使用）"></a>2.3 <del>设置开机自启动</del>（实验时未使用）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">bash -c &apos;cat &gt; /usr/lib/systemd/system/fdfs_trackerd.service &lt;&lt; EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=fastdfs tracker server</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/data/fastdfs/data/fdfs_trackerd.pid</span><br><span class="line">ExecStart=/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf</span><br><span class="line">ExecReload=/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart</span><br><span class="line">ExecStop=/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf stop</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF&apos;</span><br><span class="line">systemctl enable fdfs_trackerd.service</span><br><span class="line">systemctl start fdfs_trackerd.service</span><br></pre></td></tr></table></figure>
+<h2 id="2-4-确认tracker是否启动成功"><a href="#2-4-确认tracker是否启动成功" class="headerlink" title="2.4 确认tracker是否启动成功"></a>2.4 确认tracker是否启动成功</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /data/fastdfs/logs/trackerd.log</span><br></pre></td></tr></table></figure>
+<h2 id="2-5-安装并配置-nginx-反向代理"><a href="#2-5-安装并配置-nginx-反向代理" class="headerlink" title="2.5 安装并配置 nginx 反向代理"></a>2.5 安装并配置 nginx 反向代理</h2><p>（使用EPEL安装的NGINX的版本偏低1.0.2，推荐使用最新版本nginx-1.11.2.tar.gz，并配置反向代理服务）安装过程参见《RHEL 6.4 - Santiago 源代码编译安装 Nginx 1.11.2》</p>
+<h2 id="2-6-配置反向代理"><a href="#2-6-配置反向代理" class="headerlink" title="2.6 配置反向代理"></a>2.6 配置反向代理</h2><p>在第5步安装结束后，配置一下Nginx，开启一下反向代理功能。<br>打开 /usr/local/nginx/conf/nginx.conf，在 http {} 中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream fdfs &#123;</span><br><span class="line">    server 192.168.179.141:80;</span><br><span class="line">    server 192.168.179.142:80;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 server{} 中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /M00 &#123;</span><br><span class="line">    proxy_pass http://fdfs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="3-Storage节点配置"><a href="#3-Storage节点配置" class="headerlink" title="3. Storage节点配置"></a>3. Storage节点配置</h1><h2 id="3-1-开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）"><a href="#3-1-开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）" class="headerlink" title="3.1 开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）"></a>3.1 <del>开放tracker监听端口访问</del>（实验时防火墙全部关闭，未使用这部分配置）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd--zone=public--add-port=23000/tcp--permanent</span><br><span class="line">firewall-cmd--reload</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-修改配置文件"><a href="#3-2-修改配置文件" class="headerlink" title="3.2 修改配置文件"></a>3.2 修改配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/fastdfs</span><br><span class="line">cd /etc/fdfscp storage.conf.sample storage.conf</span><br><span class="line">cp /root/fastdfs/fastdfs/conf/http.conf .</span><br><span class="line">cp /root/fastdfs/fastdfs/conf/mime.types .</span><br><span class="line">sed -i &apos;s:base_path=.*:base_path=/data/fastdfs:g&apos; storage.conf</span><br><span class="line">sed -i &apos;s:store_path0=.*:store_path0=/data/fastdfs:g&apos; storage.conf</span><br><span class="line">sed -i &apos;s/tracker_server=.*/tracker_server=192.168.179.140:22122/g&apos; storage.conf</span><br><span class="line">sed -i &apos;s:http.server_port=.*:http.server_port=80:g&apos; storage.conf</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-开启fdfs-storage服务"><a href="#3-3-开启fdfs-storage服务" class="headerlink" title="3.3 开启fdfs storage服务"></a>3.3 开启fdfs storage服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
+<h2 id="3-4-设置开机自启动（实验时未使用）"><a href="#3-4-设置开机自启动（实验时未使用）" class="headerlink" title="3.4 设置开机自启动（实验时未使用）"></a>3.4 设置开机自启动（实验时未使用）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">bash -c &apos;cat &gt; /usr/lib/systemd/system/fdfs_storaged.service &lt;&lt; EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=fastdfs storage server</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/data/fastdfs/data/fdfs_storaged.pid</span><br><span class="line">ExecStart=/usr/bin/fdfs_storaged /etc/fdfs/storage.conf</span><br><span class="line">ExecReload=/usr/bin/fdfs_storaged /etc/fdfs/storage.conf restart</span><br><span class="line">ExecStop=/usr/bin/fdfs_storaged /etc/fdfs/storage.conf stop</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF&apos;</span><br><span class="line">systemctl enable fdfs_storaged.service</span><br><span class="line">systemctl start fdfs_storaged.service</span><br></pre></td></tr></table></figure>
+<h2 id="3-5-确认storage是否启动成功"><a href="#3-5-确认storage是否启动成功" class="headerlink" title="3.5 确认storage是否启动成功"></a>3.5 确认storage是否启动成功</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /data/fastdfs/logs/storaged.log</span><br></pre></td></tr></table></figure>
+<h1 id="4-client客户端配置"><a href="#4-client客户端配置" class="headerlink" title="4. client客户端配置"></a>4. client客户端配置</h1><h2 id="4-1-client-客户端配置"><a href="#4-1-client-客户端配置" class="headerlink" title="4.1 client 客户端配置"></a>4.1 client 客户端配置</h2><p>在tracker, storage之外的一台主机上安装FastDFS，然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/fastdfs</span><br><span class="line">cd /etc/fdfscp client.conf.sample client.conf</span><br><span class="line">sed -i &apos;s:base_path=.*:base_path=/data/fastdfs:g&apos; client.conf</span><br><span class="line">sed -i &apos;s/tracker_server=.*/tracker_server=192.168.179.140:22122/g&apos; client.conf</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-FastDFS测试"><a href="#4-2-FastDFS测试" class="headerlink" title="4.2 FastDFS测试"></a>4.2 FastDFS测试</h2><ul>
+<li>上传测试:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">joelhy@arminix: ~ $</span><br><span class="line">fdfs_upload_file /etc/fdfs/client.conf pom.xmlgroup1/M00/00/00/wKhHf1S-oryAZCpgAAAE2uRlJkA126.xml</span><br><span class="line"></span><br><span class="line">group1/M00/00/00/wKhHf1S-oryAZCpgAAAE2uRlJkA126.xml</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看文件信息:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">joelhy@arminix: ~ $ fdfs_file_info /etc/fdfs/client.conf</span><br><span class="line">group1/M00/00/00/wKhHf1S-oryAZCpgAAAE2uRlJkA126.xml</span><br><span class="line">source storage id:0</span><br><span class="line">source ip address:192.168.71.127</span><br><span class="line">file create timestamp:2015-01-2602:47:24</span><br><span class="line">file size:1242</span><br><span class="line">file crc32:3831834176 (0xE4652640)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>下载测试:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">joelhy@arminix: ~ $ fdfs_download_file /etc/fdfs/client.conf \</span><br><span class="line">    group1/M00/00/00/wKhHf1S-oryAZCpgAAAE2uRlJkA126.xml downtest.xml</span><br><span class="line">joelhy@arminix: ~ $ ls</span><br><span class="line">	downtest.xml</span><br></pre></td></tr></table></figure>
+<h1 id="5-storage-server-安装-nginx-服务器"><a href="#5-storage-server-安装-nginx-服务器" class="headerlink" title="5. storage server 安装 nginx 服务器"></a>5. storage server 安装 nginx 服务器</h1><h1 id="5-1-安装并配置-nginx-反向代理"><a href="#5-1-安装并配置-nginx-反向代理" class="headerlink" title="5.1 安装并配置 nginx 反向代理"></a>5.1 安装并配置 nginx 反向代理</h1><p>（使用EPEL安装的NGINX的版本偏低1.0.2，推荐使用最新版本nginx-1.11.2.tar.gz，并配置反向代理服务）<br>安装过程参见《RHEL 6.4 - Santiago 源代码编译安装 Nginx 1.11.2》</p>
+<p>在第4步结束后，采用下面方法编译、安装Nginx（带fastdfs-nginx-module)</p>
+<h2 id="安装Nginx和配置fastdfs-nginx-module"><a href="#安装Nginx和配置fastdfs-nginx-module" class="headerlink" title="安装Nginx和配置fastdfs-nginx-module"></a>安装Nginx和配置fastdfs-nginx-module</h2><ol>
+<li>解压fastdfs-nginx-module-master.zip</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip fastdfs-nginx-module-master.zip</span><br></pre></td></tr></table></figure>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp fastdfs-nginx-module-master/src/mod_fastdfs.conf /etc/fdfs/</span><br><span class="line">sed -i &apos;s:base_path=.*:base_path=/data/fastdfs:g&apos; mod_fastdfs.conf</span><br><span class="line">sed -i &apos;s:store_path0=.*:store_path0=/data/fastdfs:g&apos; mod_fastdfs.conf</span><br><span class="line">sed -i &apos;s/tracker_server=.*/tracker_server=192.168.179.140:22122/g&apos; mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
+<h2 id="开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）"><a href="#开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）" class="headerlink" title="开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）"></a>开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）</h2><p>如果使用Nginx的rewrite功能，请在此之前安装pcre-8.39.tar.gz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br><span class="line">./configure --prefix=/usr/local/nginx --add-module=/home/ems/chenhj/fastdfs-nginx-module-master/src</span><br><span class="line">make   </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>./configure –prefix=/usr/local/nginx –add-module=/home/ems/chenhj/fastdfs-nginx-module-master/src<br>执行完成后可以看到最后的输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">nginx path prefix: &quot;/usr/local/nginx&quot;</span><br><span class="line">nginx binary file: &quot;/usr/local/nginx/sbin/nginx&quot;</span><br><span class="line">nginx configuration prefix: &quot;/usr/local/nginx/conf&quot;</span><br><span class="line">nginx configuration file: &quot;/usr/local/nginx/conf/nginx.conf&quot;</span><br><span class="line">nginx pid file: &quot;/usr/local/nginx/logs/nginx.pid&quot;</span><br><span class="line">nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;</span><br><span class="line">nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;</span><br><span class="line">nginx http client request body temporary files: &quot;client_body_temp&quot;</span><br><span class="line">nginx http proxy temporary files: &quot;proxy_temp&quot;</span><br><span class="line">nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;</span><br><span class="line">nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;</span><br><span class="line">nginx http scgi temporary files: &quot;scgi_temp&quot;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Storage服务器nginx配置"><a href="#Storage服务器nginx配置" class="headerlink" title="Storage服务器nginx配置"></a>Storage服务器nginx配置</h2><p>server{} 里添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /M00 &#123;</span><br><span class="line">   root /data/fastdfs/data;</span><br><span class="line">   ngx_fastdfs_module;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试配置的nginx<br>打开浏览器输入: <a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a> ，能看到下面的界面表示安装成功了！</p>
+<p><img src="nginx_index.png" alt="image"></p>
+<p>接下来测试fdfs上传的文件是否也能显示，首先在桌面上准备一张图片：2.jpg，输入下面的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdfs_upload_file /etc/fdfs/client.conf  /home/zq/Desktop/2.jpg</span><br></pre></td></tr></table></figure>
+<p>返回的文件信息是：group1/M00/00/00/wKjHglYsw5GABeZoAAAj7X7kWQc565.jpg<br>在浏览器输入：<a href="http://127.0.0.1/group1/M00/00/00/wKjHglYsw5GABeZoAAAjcd7X7kWQc565.jpg" target="_blank" rel="noopener">http://127.0.0.1/group1/M00/00/00/wKjHglYsw5GABeZoAAAjcd7X7kWQc565.jpg</a> ，能看到如下的显示表示配置完成了：</p>
+<p><img src="file.png" alt="image"></p>
+<p>至此配置完成了！</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-下载软件并进行初步安装"><span class="toc-text">1. 下载软件并进行初步安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-下载安装文件"><span class="toc-text">1.1 下载安装文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-安装-fastdfs-软件"><span class="toc-text">1.2 安装 fastdfs 软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置Tracker跟踪器"><span class="toc-text">2. 配置Tracker跟踪器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-修改配置文件"><span class="toc-text">2.1 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-开启fdfs-tracker服务"><span class="toc-text">2.2 开启fdfs tracker服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-设置开机自启动（实验时未使用）"><span class="toc-text">2.3 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-确认tracker是否启动成功"><span class="toc-text">2.4 确认tracker是否启动成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-安装并配置-nginx-反向代理"><span class="toc-text">2.5 安装并配置 nginx 反向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-配置反向代理"><span class="toc-text">2.6 配置反向代理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Storage节点配置"><span class="toc-text">3. Storage节点配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）"><span class="toc-text">3.1 开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-修改配置文件"><span class="toc-text">3.2 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-开启fdfs-storage服务"><span class="toc-text">3.3 开启fdfs storage服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-设置开机自启动（实验时未使用）"><span class="toc-text">3.4 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-确认storage是否启动成功"><span class="toc-text">3.5 确认storage是否启动成功</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-client客户端配置"><span class="toc-text">4. client客户端配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-client-客户端配置"><span class="toc-text">4.1 client 客户端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-FastDFS测试"><span class="toc-text">4.2 FastDFS测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-storage-server-安装-nginx-服务器"><span class="toc-text">5. storage server 安装 nginx 服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-1-安装并配置-nginx-反向代理"><span class="toc-text">5.1 安装并配置 nginx 反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Nginx和配置fastdfs-nginx-module"><span class="toc-text">安装Nginx和配置fastdfs-nginx-module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）"><span class="toc-text">开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Storage服务器nginx配置"><span class="toc-text">Storage服务器nginx配置</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- 畅言公共JS代码 start (一个网页只需插入一次) -->
+                <!--PC版-->
+                <style>
+                service-wrap-w
+                </style>
+                <div id="SOHUCS"></div>
+                <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+                <script type="text/javascript">
+                window.changyan.api.config({
+                appid: 'cytsSSDpE',
+                conf: 'prod_f92b64e98c045169f05862d83d444a95'
+                });
+
+
+                for(var i = 1; i < 6; i++){
+
+                    setTimeout(function(){ 
+                    
+                        $("div[node-type='is-icp']").css('display','none');
+                        $('#SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w .header-skin').css('display','none');
+
+                    }, 1000*i);
+
+                }
+                
+                </script>
+                <!-- 畅言公共JS代码 end -->
+
+                <!-- Friends Blog
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">友情链接</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://bbs.nju.edu.cn">BBS</a></li>
+                        
+                        <li><a href="https://arukas.io/en">樱花容器</a></li>
+                        
+                    </ul>
+                </div>
+                 -->
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/chenhjcs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tanis 2018
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/avatar.jpg">
+</body>
+
+</html>
