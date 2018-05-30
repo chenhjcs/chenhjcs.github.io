@@ -3,7 +3,7 @@
 
 <!-- Head tag -->
 <head>
-    <meta charset="utf-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="description">
@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/css/blog-style.css">
 
     <!-- Pygments Github CSS -->
-    <link rel="stylesheet" href="/css/syntax.css">
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <style>
@@ -42,7 +42,7 @@
 </style>
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
-<!-- Navigation -->
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
@@ -76,6 +76,14 @@
                         <a href="/">Home</a>
                     </li>
 					
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
                     
                         
 							
@@ -234,9 +242,9 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip fastdfs-nginx-module-master.zip</span><br></pre></td></tr></table></figure>
 <h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp fastdfs-nginx-module-master/src/mod_fastdfs.conf /etc/fdfs/</span><br><span class="line">sed -i &apos;s:base_path=.*:base_path=/data/fastdfs:g&apos; mod_fastdfs.conf</span><br><span class="line">sed -i &apos;s:store_path0=.*:store_path0=/data/fastdfs:g&apos; mod_fastdfs.conf</span><br><span class="line">sed -i &apos;s/tracker_server=.*/tracker_server=192.168.179.140:22122/g&apos; mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
-<h2 id="开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）"><a href="#开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）" class="headerlink" title="开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）"></a>开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）</h2><p>如果使用Nginx的rewrite功能，请在此之前安装pcre-8.39.tar.gz</p>
+<h2 id="开始安装nginx（—prefix指定nginx安装到哪里，-—add-module指定fastdfs-nginx-module的目录）"><a href="#开始安装nginx（—prefix指定nginx安装到哪里，-—add-module指定fastdfs-nginx-module的目录）" class="headerlink" title="开始安装nginx（—prefix指定nginx安装到哪里， —add-module指定fastdfs-nginx-module的目录）"></a>开始安装nginx（—prefix指定nginx安装到哪里， —add-module指定fastdfs-nginx-module的目录）</h2><p>如果使用Nginx的rewrite功能，请在此之前安装pcre-8.39.tar.gz</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br><span class="line">./configure --prefix=/usr/local/nginx --add-module=/home/ems/chenhj/fastdfs-nginx-module-master/src</span><br><span class="line">make   </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<p>./configure –prefix=/usr/local/nginx –add-module=/home/ems/chenhj/fastdfs-nginx-module-master/src<br>执行完成后可以看到最后的输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">nginx path prefix: &quot;/usr/local/nginx&quot;</span><br><span class="line">nginx binary file: &quot;/usr/local/nginx/sbin/nginx&quot;</span><br><span class="line">nginx configuration prefix: &quot;/usr/local/nginx/conf&quot;</span><br><span class="line">nginx configuration file: &quot;/usr/local/nginx/conf/nginx.conf&quot;</span><br><span class="line">nginx pid file: &quot;/usr/local/nginx/logs/nginx.pid&quot;</span><br><span class="line">nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;</span><br><span class="line">nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;</span><br><span class="line">nginx http client request body temporary files: &quot;client_body_temp&quot;</span><br><span class="line">nginx http proxy temporary files: &quot;proxy_temp&quot;</span><br><span class="line">nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;</span><br><span class="line">nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;</span><br><span class="line">nginx http scgi temporary files: &quot;scgi_temp&quot;</span><br></pre></td></tr></table></figure></p>
+<p>./configure —prefix=/usr/local/nginx —add-module=/home/ems/chenhj/fastdfs-nginx-module-master/src<br>执行完成后可以看到最后的输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">nginx path prefix: &quot;/usr/local/nginx&quot;</span><br><span class="line">nginx binary file: &quot;/usr/local/nginx/sbin/nginx&quot;</span><br><span class="line">nginx configuration prefix: &quot;/usr/local/nginx/conf&quot;</span><br><span class="line">nginx configuration file: &quot;/usr/local/nginx/conf/nginx.conf&quot;</span><br><span class="line">nginx pid file: &quot;/usr/local/nginx/logs/nginx.pid&quot;</span><br><span class="line">nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;</span><br><span class="line">nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;</span><br><span class="line">nginx http client request body temporary files: &quot;client_body_temp&quot;</span><br><span class="line">nginx http proxy temporary files: &quot;proxy_temp&quot;</span><br><span class="line">nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;</span><br><span class="line">nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;</span><br><span class="line">nginx http scgi temporary files: &quot;scgi_temp&quot;</span><br></pre></td></tr></table></figure></p>
 <h2 id="Storage服务器nginx配置"><a href="#Storage服务器nginx配置" class="headerlink" title="Storage服务器nginx配置"></a>Storage服务器nginx配置</h2><p>server{} 里添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /M00 &#123;</span><br><span class="line">   root /data/fastdfs/data;</span><br><span class="line">   ngx_fastdfs_module;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>测试配置的nginx<br>打开浏览器输入: <a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a> ，能看到下面的界面表示安装成功了！</p>
 <p><img src="nginx_index.png" alt="image"></p>
@@ -250,6 +258,11 @@
                 
 
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/30/git-manual/" data-toggle="tooltip" data-placement="top"
+                           title="Git Manual">&larr; Previous Post</a>
+                    </li>
                     
                     
                 </ul>
@@ -265,7 +278,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-下载软件并进行初步安装"><span class="toc-text">1. 下载软件并进行初步安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-下载安装文件"><span class="toc-text">1.1 下载安装文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-安装-fastdfs-软件"><span class="toc-text">1.2 安装 fastdfs 软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置Tracker跟踪器"><span class="toc-text">2. 配置Tracker跟踪器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-修改配置文件"><span class="toc-text">2.1 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-开启fdfs-tracker服务"><span class="toc-text">2.2 开启fdfs tracker服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-设置开机自启动（实验时未使用）"><span class="toc-text">2.3 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-确认tracker是否启动成功"><span class="toc-text">2.4 确认tracker是否启动成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-安装并配置-nginx-反向代理"><span class="toc-text">2.5 安装并配置 nginx 反向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-配置反向代理"><span class="toc-text">2.6 配置反向代理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Storage节点配置"><span class="toc-text">3. Storage节点配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）"><span class="toc-text">3.1 开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-修改配置文件"><span class="toc-text">3.2 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-开启fdfs-storage服务"><span class="toc-text">3.3 开启fdfs storage服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-设置开机自启动（实验时未使用）"><span class="toc-text">3.4 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-确认storage是否启动成功"><span class="toc-text">3.5 确认storage是否启动成功</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-client客户端配置"><span class="toc-text">4. client客户端配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-client-客户端配置"><span class="toc-text">4.1 client 客户端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-FastDFS测试"><span class="toc-text">4.2 FastDFS测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-storage-server-安装-nginx-服务器"><span class="toc-text">5. storage server 安装 nginx 服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-1-安装并配置-nginx-反向代理"><span class="toc-text">5.1 安装并配置 nginx 反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Nginx和配置fastdfs-nginx-module"><span class="toc-text">安装Nginx和配置fastdfs-nginx-module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装nginx（–prefix指定nginx安装到哪里，-–add-module指定fastdfs-nginx-module的目录）"><span class="toc-text">开始安装nginx（–prefix指定nginx安装到哪里， –add-module指定fastdfs-nginx-module的目录）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Storage服务器nginx配置"><span class="toc-text">Storage服务器nginx配置</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-下载软件并进行初步安装"><span class="toc-text">1. 下载软件并进行初步安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-下载安装文件"><span class="toc-text">1.1 下载安装文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-安装-fastdfs-软件"><span class="toc-text">1.2 安装 fastdfs 软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置Tracker跟踪器"><span class="toc-text">2. 配置Tracker跟踪器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-修改配置文件"><span class="toc-text">2.1 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-开启fdfs-tracker服务"><span class="toc-text">2.2 开启fdfs tracker服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-设置开机自启动（实验时未使用）"><span class="toc-text">2.3 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-确认tracker是否启动成功"><span class="toc-text">2.4 确认tracker是否启动成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-安装并配置-nginx-反向代理"><span class="toc-text">2.5 安装并配置 nginx 反向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-配置反向代理"><span class="toc-text">2.6 配置反向代理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Storage节点配置"><span class="toc-text">3. Storage节点配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）"><span class="toc-text">3.1 开放tracker监听端口访问（实验时防火墙全部关闭，未使用这部分配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-修改配置文件"><span class="toc-text">3.2 修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-开启fdfs-storage服务"><span class="toc-text">3.3 开启fdfs storage服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-设置开机自启动（实验时未使用）"><span class="toc-text">3.4 设置开机自启动（实验时未使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-确认storage是否启动成功"><span class="toc-text">3.5 确认storage是否启动成功</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-client客户端配置"><span class="toc-text">4. client客户端配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-client-客户端配置"><span class="toc-text">4.1 client 客户端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-FastDFS测试"><span class="toc-text">4.2 FastDFS测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-storage-server-安装-nginx-服务器"><span class="toc-text">5. storage server 安装 nginx 服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-1-安装并配置-nginx-反向代理"><span class="toc-text">5.1 安装并配置 nginx 反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Nginx和配置fastdfs-nginx-module"><span class="toc-text">安装Nginx和配置fastdfs-nginx-module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装nginx（—prefix指定nginx安装到哪里，-—add-module指定fastdfs-nginx-module的目录）"><span class="toc-text">开始安装nginx（—prefix指定nginx安装到哪里， —add-module指定fastdfs-nginx-module的目录）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Storage服务器nginx配置"><span class="toc-text">Storage服务器nginx配置</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -439,6 +452,22 @@
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/avatar.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 </body>
 
 </html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="description">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Tanis" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Git Manual｜Tanis&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/05/30/git-manual/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tanis
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-default.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Git Manual</h1>
+                    
+                    <span class="meta">
+                         作者 Tanis Chan
+                        <span>
+                          日期 2018-05-30
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Git"
+                           title="Git">Git</a>
+                        
+                        <a class="tag" href="/tags/#Github"
+                           title="Github">Github</a>
+                        
+                        <a class="tag" href="/tags/#Gitee"
+                           title="Gitee">Gitee</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Git Manual
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>Github是开源生态圈中一个重要的代码仓库，个人可以创建公开项目，付费后可以创建私有项目。<br>Gitee是国内一个代码仓库，个人可免费创建私有项目，本人的博客源码暂时落地在Gitee仓库。<br>之前一直使用TortoiseSVN工具，本文下面介绍一下如何使用ToroiseGit连接Github和Gitee仓库。</p>
+<h1 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h1><ul>
+<li>安装Git 工具</li>
+<li>安装Tortoise</li>
+</ul>
+<h1 id="生成SSH"><a href="#生成SSH" class="headerlink" title="生成SSH"></a>生成SSH</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;chenhjcs@163.com&quot;</span><br><span class="line"></span><br><span class="line">C:\Users\Tanis&gt;ssh-keygen -t rsa -C &quot;chenhjcs@163.com&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line"># 输入秘钥保存地址,RSA 秘钥保存在 C:\\Users\\用户名\\.ssh文件夹</span><br><span class="line">Enter file in which to save the key (C:\Users\用户名/.ssh/id_rsa): </span><br><span class="line">c:\Users\用户名\.ssh\demo   </span><br><span class="line"># 输入二次加密密码</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line"># demo为私钥，demo.pub为公钥。</span><br><span class="line">Your identification has been saved in c:\Users\用户名\.ssh\demo.</span><br><span class="line">Your public key has been saved in c:\Users\用户名\.ssh\demo.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:Pz37tpaWJEe9rMKH/VWpFxYZDmifeKsn77SO9oM2JF8 chenhjcs1@163.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 2048]----+</span><br><span class="line">|            .. . |</span><br><span class="line">|           o  o o|</span><br><span class="line">|          . o .= |</span><br><span class="line">|           . +. +|</span><br><span class="line">|        S   ..o+o|</span><br><span class="line">|         o o.E=oo|</span><br><span class="line">|          B O*.+.|</span><br><span class="line">|           &amp;oOO .|</span><br><span class="line">|          o.%@=o |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure>
+<h1 id="配置Github的公钥"><a href="#配置Github的公钥" class="headerlink" title="配置Github的公钥"></a>配置Github的公钥</h1><p>Github中打开用户的个人设置（Personal Setting）-&gt; SSH 和 GPG秘钥管理（SSH and GPG keys）。<br>将公钥添加至SSH Keys中，将demo.pub中内容拷贝至秘钥（key）文本框中。</p>
+<p>在命令终端中输入</p>
+<blockquote>
+<p>ssh -T git@github.com</p>
+</blockquote>
+<p>返回以下信息，即表示git客户端权限集成成功</p>
+<blockquote>
+<p>Hi 用户! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
+</blockquote>
+<h1 id="配置Gitee的公钥"><a href="#配置Gitee的公钥" class="headerlink" title="配置Gitee的公钥"></a>配置Gitee的公钥</h1><p>Gitee中打开用户的基本设置 -&gt; 安全设置 -&gt; SSH 公钥。<br>将公钥demo.pub中内容拷贝至公钥文本框中。</p>
+<p>在命令终端中输入</p>
+<blockquote>
+<p>ssh -T git@gitee.com</p>
+</blockquote>
+<p>返回以下信息，即表示git客户端权限集成成功</p>
+<blockquote>
+<p>Welcome to Gitee.com, 用户名!</p>
+</blockquote>
+<h1 id="配置-Tortoise"><a href="#配置-Tortoise" class="headerlink" title="配置 Tortoise"></a>配置 Tortoise</h1><p>上述配置完成后，使用Git命令结合进行代码管理。<br>习惯使用海龟的同学，可以在ToroiseGit-&gt;Settings-&gt;Network中，修改SSH Client工具即可。</p>
+<blockquote>
+<p>C:\Program Files\Git\usr\bin\ssh.exe</p>
+</blockquote>
+<p><img src="tortoise_network_config.png" alt=""></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/03/29/fast-dfs-instroduction/" data-toggle="tooltip" data-placement="top"
+                           title="FastDFS 使用入门">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装软件"><span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成SSH"><span class="toc-text">生成SSH</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置Github的公钥"><span class="toc-text">配置Github的公钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置Gitee的公钥"><span class="toc-text">配置Gitee的公钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置-Tortoise"><span class="toc-text">配置 Tortoise</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- 畅言公共JS代码 start (一个网页只需插入一次) -->
+                <!--PC版-->
+                <style>
+                service-wrap-w
+                </style>
+                <div id="SOHUCS"></div>
+                <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+                <script type="text/javascript">
+                window.changyan.api.config({
+                appid: 'cytsSSDpE',
+                conf: 'prod_f92b64e98c045169f05862d83d444a95'
+                });
+
+
+                for(var i = 1; i < 6; i++){
+
+                    setTimeout(function(){ 
+                    
+                        $("div[node-type='is-icp']").css('display','none');
+                        $('#SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w .header-skin').css('display','none');
+
+                    }, 1000*i);
+
+                }
+                
+                </script>
+                <!-- 畅言公共JS代码 end -->
+
+                <!-- Friends Blog
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">友情链接</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://bbs.nju.edu.cn">BBS</a></li>
+                        
+                        <li><a href="https://arukas.io/en">樱花容器</a></li>
+                        
+                    </ul>
+                </div>
+                 -->
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/chenhjcs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tanis 2018
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/avatar.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+
+</html>
